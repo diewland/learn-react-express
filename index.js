@@ -1,39 +1,45 @@
 import React, { Component } from 'react'
-import ReactDOM from 'react-dom'
+import { render } from 'react-dom'
 
-const styles = {
-  app: {
-    paddingTop: 40,
-    textAlign: 'center',
+class Counter extends Component {
+
+  state = { count: 0 }
+
+  componentDidMount(){
+    setInterval(() => {
+      this.setState({ count: this.state.count + 1 })
+    }, 1000)
   }
-}
 
-class App extends Component {
   render(){
+    const {count} = this.state
+    const {color, size} = this.props
+
     return (
-      <div style={styles.app}>
-        Welcome to React!
+      <div style={{color, fontSize: size}}>
+        {count}
       </div>
     )
   }
 }
 
-const root = document.querySelector('#app')
-ReactDOM.render(<App />, root)
+class App extends Component {
+  render(){
+    const style = {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+    }
 
-// *** test only ***
-const fetchData = async () => {
-  return fetch('https://randomuser.me/api/')
-}
-
-const printData = async () => {
-  try {
-    const data = await fetchData()
-    const json = await data.json()
-    console.log(json)
-  } catch(e) {
-    console.error("Problem", e)
+    return (
+      <div style={style}>
+        <Counter color={'lightblue'} size={16} />
+        <Counter color={'skyblue'} size={32} />
+        <Counter color={'steelblue'} size={80} />
+        <Counter color={'darkblue'} size={140} />
+      </div>
+    )
   }
 }
 
-printData()
+render(<App />, document.querySelector('#app'))
