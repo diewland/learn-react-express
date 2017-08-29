@@ -1,45 +1,37 @@
 import React, { Component } from 'react'
 import { render } from 'react-dom'
 
-class Counter extends Component {
+class Input extends Component {
 
-  state = { count: 0 }
+  state = { value: '' }
 
-  componentDidMount(){
-    setInterval(() => {
-      this.setState({ count: this.state.count + 1 })
-    }, 1000)
+  handleChange = (e) => {
+    this.setState({ value: e.target.value })
   }
 
+
   render(){
-    const {count} = this.state
-    const {color, size} = this.props
+
+    const {value} = this.state
 
     return (
-      <div style={{color, fontSize: size}}>
-        {count}
+      <div>
+        <label htmlFor={'id'}>
+          Enter value
+        </label>
+        <input 
+          id={'id'}
+          type={'text'}
+          value={value}
+          placeholder={'Placeholder'}
+          onChange={this.handleChange}
+        />
+        <br />
+        <br />
+        My value: {value}
       </div>
     )
   }
 }
 
-class App extends Component {
-  render(){
-    const style = {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-    }
-
-    return (
-      <div style={style}>
-        <Counter color={'lightblue'} size={16} />
-        <Counter color={'skyblue'} size={32} />
-        <Counter color={'steelblue'} size={80} />
-        <Counter color={'darkblue'} size={140} />
-      </div>
-    )
-  }
-}
-
-render(<App />, document.querySelector('#app'))
+render(<Input />, document.querySelector('#app'))
