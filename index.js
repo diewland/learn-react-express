@@ -1,37 +1,20 @@
 import React, { Component } from 'react'
 import { render } from 'react-dom'
+import { createStore } from 'redux'
+import { Provider } from 'react-redux'
 
-class Input extends Component {
+// Import the reducer and create a store
+import { reducer } from './todoListRedux'
+const store = createStore(reducer)
 
-  state = { value: '' }
+// Import the App container component
+import App from './app'
 
-  handleChange = (e) => {
-    this.setState({ value: e.target.value })
-  }
+// Pass the store into the Provider
+const AppWithStore = (
+  <Provider store={store}>
+    <App />
+  </Provider>
+)
 
-
-  render(){
-
-    const {value} = this.state
-
-    return (
-      <div>
-        <label htmlFor={'id'}>
-          Enter value
-        </label>
-        <input 
-          id={'id'}
-          type={'text'}
-          value={value}
-          placeholder={'Placeholder'}
-          onChange={this.handleChange}
-        />
-        <br />
-        <br />
-        My value: {value}
-      </div>
-    )
-  }
-}
-
-render(<Input />, document.querySelector('#app'))
+render(AppWithStore, document.querySelector('#app'))
