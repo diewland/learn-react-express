@@ -1,29 +1,36 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 
-import { actionCreators } from './todoListRedux'
 import List from './List'
 import Input from './Input'
 import Title from './Title'
 
-const mapStateToProps = (state) => ({
-  todos: state.todos,
-})
-
-class App extends Component {
+export default class App extends Component {
   
+  state = {
+    todos: [
+      'Click to remove',
+      'Learn React',
+      'Write Code',
+      'Ship App',
+    ]
+  }
+
   onAddTodo = (text) => {
-    const {dispatch} = this.props
-    dispatch(actionCreators.add(text))
+    const {todos} = this.state
+    this.setState({
+      todos: [ text, ...todos ],
+    })
   }
 
   onRemoveTodo = (index) => {
-    const {dispatch} = this.props
-    dispatch(actionCreators.remove(index))
+    const {todos} = this.state
+    this.setState({
+      todos: todos.filter((todo, i) => i !== index)
+    })
   }
 
   render() {
-    const {todos} = this.props
+    const {todos} = this.state
 
     return (
       <div style={styles.container}>
@@ -31,7 +38,7 @@ class App extends Component {
           To-Do List
         </Title>
         <Input
-          placeholder={'Type a todo, then hit enter'}
+          placeholder={'Type a todo, then hit enter!'}
           onSubmitEditing={this.onAddTodo}
         />
         <List
@@ -49,5 +56,3 @@ const styles = {
     flexDirection: 'column',
   },
 }
-
-export default connect(mapStateToProps)(App)
